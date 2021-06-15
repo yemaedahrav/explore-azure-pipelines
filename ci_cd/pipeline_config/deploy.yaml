@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - ci_cd/pipeline_config/deploy.yaml
+    - ci_cd/pipeline_config/read_config.py
+    - ci_cd/pipeline_config/teardown.yaml
+    - ci_cd/config/teardown.json
+
+pool: bharathi-bg-agpool
+
+stages:
+- stage:
+  jobs:
+  - job: Deploy
+    displayName: Green Deployment
+    pool: bharathi-bg-agpool
+    steps:
+    - task: PythonScript@0
+      displayName: 'Update Pipeline variables'
+      inputs:
+        scriptPath: '$(System.DefaultWorkingDirectory)/ci_cd/pipeline_config/read_config.py'
+        arguments: --config_file $(System.DefaultWorkingDirectory)/ci_cd/config/setup_config.json --action 'create'
+    
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      displayName: 'Install Terraform 0.13.5'
+      inputs:
+        terraformVersion: 0.13.5
+
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+        allowTelemetryCollection: false
+        backendType: selfConfigured
+      displayName: 'terraform init'
+
+    - task: TerraformCLI@0
+      displayName: 'terraform plan'
+      inputs:
+        command: plan
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+        environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
+        commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
+        allowTelemetryCollection: false
+    - task: TerraformCLI@0
+      displayName: 'terraform apply'
+      inputs:
+        command: apply
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+        environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
+        commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
+        allowTelemetryCollection: false
+      enabled: True

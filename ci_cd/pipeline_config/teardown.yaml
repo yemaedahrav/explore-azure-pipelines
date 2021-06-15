@@ -1,0 +1,53 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - ci_cd/config/teardown.json
+
+pool: bharathi-bg-agpool
+
+stages:
+- stage:
+  jobs:
+  - job: TearDown
+    displayName: Delete Deployment
+    pool: bharathi-bg-agpool
+    steps:
+    - task: PythonScript@0
+      displayName: 'Update Pipeline variables for deleting existing config on ADC'
+      inputs:
+        scriptPath: '$(System.DefaultWorkingDirectory)/ci_cd/pipeline_config/read_config.py'
+        arguments: --config_file $(System.DefaultWorkingDirectory)/ci_cd/config/teardown.json --action delete
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script:  |
+          cd $(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)
+          '$(Agent.ToolsDirectory)/terraform/0.13.5/x64/terraform' state rm "citrixadc_csvserver.demo_csvserver"
+      displayName: 'Exclude csvs resource deletion from Terraform state file'
+      condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
+    - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+      inputs:
+        terraformVersion: '0.13.5'
+      displayName: 'Install Terraform'
+      condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+        allowTelemetryCollection: false
+        backendType: selfConfigured
+      displayName: 'terraform init'
+      condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
+
+    - task: TerraformCLI@0
+      displayName: 'terraform destroy'
+      inputs:
+        command: destroy
+        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+        environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
+        commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
+        allowTelemetryCollection: false
+      condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))

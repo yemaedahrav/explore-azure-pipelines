@@ -15,7 +15,7 @@ stages:
 - stage:
   jobs:
   - job: Deploy
-    displayName: Green Deployment
+    displayName: Configure ADC
     pool: bharathi-bg-agpool
     steps:
     - task: PythonScript@0

@@ -12,7 +12,7 @@ stages:
 - stage:
   jobs:
   - job: TearDown
-    displayName: Delete Deployment
+    displayName: Delete Configuration
     pool: bharathi-bg-agpool
     steps:
     - task: PythonScript@0

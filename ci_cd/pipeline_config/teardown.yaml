@@ -28,16 +28,17 @@ stages:
     - task: TerraformCLI@0
       inputs:
         command: 'init'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+	workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         allowTelemetryCollection: false
-        backendType: selfConfigured
+	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+        backendType: local
       displayName: 'terraform init'
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
     - task: Bash@3
       inputs:
         targetType: 'inline'
         script:  |
-          cd $(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)
+	  cd '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
           '$(Agent.ToolsDirectory)/terraform/0.13.5/x64/terraform' state rm "citrixadc_csvserver.demo_csvserver"
       displayName: 'Exclude csvs resource deletion from Terraform state file'
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
@@ -45,8 +46,9 @@ stages:
       displayName: 'terraform destroy'
       inputs:
         command: destroy
-        workingDirectory: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)'
+	workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
+	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
         commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
         allowTelemetryCollection: false
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))

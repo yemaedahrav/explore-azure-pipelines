@@ -27,7 +27,7 @@ resource "citrixadc_service"  "service"{
 #policy to based on that target lbvserver
 resource "citrixadc_cspolicy" "cspolicy"{
   csvserver       = citrixadc_csvserver.demo_csvserver.name
-  # targetlbvserver = citrixadc_lbvserver.blueLB.name
+  targetlbvserver = citrixadc_lbvserver.lbvs.name
   policyname      = var.cspolicy_name
   rule            = format("HTTP.REQ.HOSTNAME.SERVER.EQ(\"demo-bg.webapp.com\") && HTTP.REQ.URL.PATH.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/\") && sys.random.mul(100).lt(%s)", var.traffic_split_percentage)
   priority        = var.priority

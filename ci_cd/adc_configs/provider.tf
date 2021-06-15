@@ -1,6 +1,5 @@
 terraform {
   backend "local" {
-    path = var.tf_backend_path
   }
   required_providers {
     citrixadc = {

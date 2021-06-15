@@ -26,7 +26,3 @@ variable "priority" {
   description = "CS Policy Priority"
   type = number
 }
-variable "tf_backend_path" {
-  description = "Local path of terraform local backend"
-  type = string
-}

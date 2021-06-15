@@ -3,4 +3,4 @@ lb_ip = "1.1.1.2"
 backend_service_name = "green_service"
 cspolicy_name = "green_cspolicy"
 priority = 100
-tf_backend_path = "/tmp/tfstates/v1/new.tfstate"
+backend.config="path=/tmp/tfstates/v1/green.tfstate"

@@ -30,7 +30,7 @@ stages:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         allowTelemetryCollection: false
-	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TFVARS)'
         backendType: local
       displayName: 'terraform init'
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
@@ -48,7 +48,7 @@ stages:
         command: destroy
         workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
-	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TFVARS)'
         commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
         allowTelemetryCollection: false
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))

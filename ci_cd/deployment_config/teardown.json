@@ -1,5 +1,5 @@
 {
   "TRAFFIC_SPLIT_PERCENTAGE": "100",
   "ENDPOINT_IP": "20.0.0.7",
-  "TERRAFORM_SCRIPT_PATH": "ci_cd/deployment_config"
+  "TFVARS": "ci_cd/deployment_config/new_deployment.tfvars"
 }

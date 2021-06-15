@@ -25,7 +25,6 @@ stages:
         terraformVersion: '0.13.5'
       displayName: 'Install Terraform'
       condition:  and(succeeded(), eq(variables['TEARDOWN_FLAG'], true))
-      enabled: False
     - task: TerraformCLI@0
       inputs:
         command: 'init'

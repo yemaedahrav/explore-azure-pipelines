@@ -2,5 +2,5 @@
   "TRAFFIC_SPLIT_PERCENTAGE": "100",
   "ENDPOINT_IP": "20.0.0.8",
   "ADC_CONFIG_VALUES": "ci_cd/deployment_config/new_deployment.tfvars",
-  "TERRAFORM_STATE_FILE": "new_deployment.tfstate"
+  "TERRAFORM_BACKEND_KEY": "new_deployment.tfstate"
 }

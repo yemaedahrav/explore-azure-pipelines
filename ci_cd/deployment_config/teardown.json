@@ -1,4 +1,4 @@
 {
   "ENDPOINT_IP": "20.0.0.8",
-  "TERRAFORM_STATE_FILE": "new_deployment.tfstate"
+  "TERRAFORM_BACKEND_KEY": "new_deployment.tfstate"
 }

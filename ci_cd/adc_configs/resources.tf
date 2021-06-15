@@ -7,14 +7,14 @@ resource "citrixadc_csvserver" "demo_csvserver" {
   # lbvserverbinding = citrixadc_lbvserver.blueLB.name
 }
 
-resource "citrixadc_lbvserver" var.lbvs_name {
+resource "citrixadc_lbvserver" {
   ipv46       = var.lb_ip
   name        = var.lbvs_name
   port        = 80
   servicetype = "HTTP"
 }
 
-resource "citrixadc_service" var.backend_service_name {
+resource "citrixadc_service" {
     lbvserver = citrixadc_lbvserver.blueLB.name
     name = var.backend_service_name
     ip = var.backend_service
@@ -25,7 +25,7 @@ resource "citrixadc_service" var.backend_service_name {
 
 
 #policy to based on that target lbvserver
-resource "citrixadc_cspolicy" var.cspolicy_name {
+resource "citrixadc_cspolicy" {
   csvserver       = citrixadc_csvserver.demo_csvserver.name
   # targetlbvserver = citrixadc_lbvserver.blueLB.name
   policyname      = var.cspolicy_name

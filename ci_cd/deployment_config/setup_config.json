@@ -1,4 +1,5 @@
 {
   "TRAFFIC_SPLIT_PERCENTAGE": "100",
-  "ENDPOINT_IP": "20.0.0.8"
+  "ENDPOINT_IP": "20.0.0.8",
+  "ADC_CONFIG_PATH": "ci_cd/deployment_config/current_deployment.tfvars"
 }

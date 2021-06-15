@@ -1,6 +1,6 @@
 terraform {
   backend "local" {
-    path = "/tmp/tfstates/v1/terraform.tfstate"
+    path = var.tf_backend_path
   }
   required_providers {
     citrixadc = {

@@ -1,5 +1,5 @@
-lbvs_name = "greenLB"
-lb_ip = "1.1.1.2"
-backend_service_name = "green_service"
-cspolicy_name = "green_cspolicy"
-priority = 100
+lbvs_name = "blue_lb"
+lb_ip = "1.1.1.1"
+backend_service_name = "blue_service"
+cspolicy_name = "blue_cspolicy"
+priority = 101

@@ -7,7 +7,7 @@ trigger:
     - ci_cd/pipeline_config/deploy.yaml
     - ci_cd/pipeline_config/read_config.py
     - ci_cd/pipeline_config/teardown.yaml
-    - ci_cd/config/teardown.json
+    - ci_cd/deployment_config/teardown.json
 
 pool: bharathi-bg-agpool
 
@@ -22,7 +22,7 @@ stages:
       displayName: 'Update Pipeline variables'
       inputs:
         scriptPath: '$(System.DefaultWorkingDirectory)/ci_cd/pipeline_config/read_config.py'
-        arguments: --config_file $(System.DefaultWorkingDirectory)/ci_cd/config/setup_config.json --action 'create'
+        arguments: --config_file $(System.DefaultWorkingDirectory)/ci_cd/deployment_config/setup_config.json --action 'create'
     
     - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
       displayName: 'Install Terraform 0.13.5'

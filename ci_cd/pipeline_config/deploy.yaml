@@ -35,7 +35,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         allowTelemetryCollection: false
         backendType: local
-	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+        secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
       displayName: 'terraform init'
 
     - task: TerraformCLI@0
@@ -44,7 +44,7 @@ stages:
         command: plan
         workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
-	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+        secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
         commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
         allowTelemetryCollection: false
 
@@ -54,6 +54,6 @@ stages:
         command: apply
         workingDirectory: '$(System.DefaultWorkingDirectory)/ci_cd/adc_configs'
         environmentServiceName: 'NSDev GWY CA raghul.christus@citrix.com(23b03d6f-b164-4527-9acd-595d97060283)'
-	secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
+        secureVarsFile: '$(System.DefaultWorkingDirectory)/$(TERRAFORM_SCRIPT_PATH)/terraform.tfvars'
         commandOptions: '-var "backend_service=$(ENDPOINT_IP)" -var "traffic_split_percentage=$(TRAFFIC_SPLIT_PERCENTAGE)"'
         allowTelemetryCollection: false

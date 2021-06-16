@@ -9,14 +9,14 @@ trigger:
     - ci_cd/pipeline_config/teardown.yaml
     - ci_cd/deployment_config/teardown.json
 
-pool: bharathi-bg-agpool
+pool: amey-vmpool
 
 stages:
 - stage:
   jobs:
   - job: Deploy
     displayName: Configure ADC
-    pool: bharathi-bg-agpool
+    pool: amey-vmpool
     steps:
     - task: PythonScript@0
       displayName: 'Update Pipeline variables'

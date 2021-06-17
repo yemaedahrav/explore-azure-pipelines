@@ -24,6 +24,7 @@ stages:
         script: |
           sudo apt-get install python -y
           sudo apt-get install unzip -y
+          echo 'Hello from Amey'
     - task: PythonScript@0
       displayName: 'Update Pipeline variables'
       inputs:

@@ -6,14 +6,14 @@ trigger:
     include:
     - ci_cd/deployment_config/teardown.json
 
-pool: bharathi-bg-agpool
+pool: amey-vmpool
 
 stages:
 - stage:
   jobs:
   - job: TearDown
     displayName: Delete Configuration
-    pool: bharathi-bg-agpool
+    pool: amey-vmpool
     steps:
     - task: PythonScript@0
       displayName: 'Update Pipeline variables for deleting existing config on ADC'
